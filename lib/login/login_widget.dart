@@ -187,16 +187,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       return;
                                     }
 
-                                    if (currentUserEmailVerified) {
-                                      await Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => NavBarPage(
-                                              initialPage: 'myTasks'),
-                                        ),
-                                        (r) => false,
-                                      );
-                                    }
+                                    await Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavBarPage(initialPage: 'myTasks'),
+                                      ),
+                                      (r) => false,
+                                    );
                                   },
                                   text: 'Login',
                                   options: FFButtonOptions(
