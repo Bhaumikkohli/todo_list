@@ -217,10 +217,6 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
                             }
                             List<ToDoListRecord> dateTimeToDoListRecordList =
                                 snapshot.data;
-                            // Return an empty Container when the document does not exist.
-                            if (snapshot.data.isEmpty) {
-                              return Container();
-                            }
                             final dateTimeToDoListRecord =
                                 dateTimeToDoListRecordList.isNotEmpty
                                     ? dateTimeToDoListRecordList.first
@@ -299,7 +295,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
                             toDoName: taskNameController.text,
                             toDoState: false,
                             toDoDescription: detailsController.text,
-                            email: buttonToDoListRecord.email,
+                            email: currentUserEmail,
                           );
                           await ToDoListRecord.collection
                               .doc()

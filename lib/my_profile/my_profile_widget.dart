@@ -1,5 +1,4 @@
 import '../auth/auth_util.dart';
-import '../backend/backend.dart';
 import '../change_password/change_password_widget.dart';
 import '../edit_profile/edit_profile_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
@@ -10,7 +9,6 @@ import '../main.dart';
 import '../onboarding/onboarding_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:share_plus/share_plus.dart';
 
 class MyProfileWidget extends StatefulWidget {
   const MyProfileWidget({Key key}) : super(key: key);
@@ -104,47 +102,24 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                 ],
               ),
             ),
-            StreamBuilder<List<UsersRecord>>(
-              stream: queryUsersRecord(
-                singleRecord: true,
-              ),
-              builder: (context, snapshot) {
-                // Customize what your widget looks like when it's loading.
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: CircularProgressIndicator(
-                        color: FlutterFlowTheme.primaryColor,
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                  child: AuthUserStreamWidget(
+                    child: Text(
+                      currentUserDocument?.firstName,
+                      style: FlutterFlowTheme.bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.tertiaryColor,
+                        fontSize: 26,
                       ),
                     ),
-                  );
-                }
-                List<UsersRecord> rowUsersRecordList = snapshot.data;
-                final rowUsersRecord = rowUsersRecordList.isNotEmpty
-                    ? rowUsersRecordList.first
-                    : null;
-                return Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                      child: AuthUserStreamWidget(
-                        child: Text(
-                          currentUserDocument?.firstName,
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.tertiaryColor,
-                            fontSize: 26,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
@@ -324,110 +299,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 5),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 340,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.customColor6,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      15, 0, 0, 0),
-                                  child: Text(
-                                    'Share',
-                                    style: FlutterFlowTheme.bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      color: FlutterFlowTheme.tertiaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              StreamBuilder<List<ToDoListRecord>>(
-                                stream: queryToDoListRecord(
-                                  singleRecord: true,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 50,
-                                        height: 50,
-                                        child: CircularProgressIndicator(
-                                          color: FlutterFlowTheme.primaryColor,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<ToDoListRecord>
-                                      iconButtonToDoListRecordList =
-                                      snapshot.data;
-                                  // Return an empty Container when the document does not exist.
-                                  if (snapshot.data.isEmpty) {
-                                    return Container();
-                                  }
-                                  final iconButtonToDoListRecord =
-                                      iconButtonToDoListRecordList.isNotEmpty
-                                          ? iconButtonToDoListRecordList.first
-                                          : null;
-                                  return FlutterFlowIconButton(
-                                    borderColor: Colors.transparent,
-                                    borderRadius: 30,
-                                    borderWidth: 1,
-                                    buttonSize: 50,
-                                    icon: Icon(
-                                      Icons.share_outlined,
-                                      color: Color(0xBAFFFFFF),
-                                      size: 30,
-                                    ),
-                                    onPressed: () async {
-                                      await Share.share(
-                                          iconButtonToDoListRecord.toDoName);
-                                    },
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 90, 0, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,

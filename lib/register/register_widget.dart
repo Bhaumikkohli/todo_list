@@ -279,41 +279,20 @@ class _RegisterWidgetState extends State<RegisterWidget> {
 
                                 final usersCreateData = createUsersRecordData(
                                   firstName: firstNameController.text,
-                                  password: passwordController.text,
                                   email: emailAddressController.text,
                                 );
                                 await UsersRecord.collection
                                     .doc(user.uid)
                                     .update(usersCreateData);
 
-                                await sendEmailVerification();
-                                await showDialog(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      title: Text('Email Verification Sent!'),
-                                      content: Text(
-                                          'We have sent you a verification email. Please approve it via the URL. This is to prevent users to create fake accounts.'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(alertDialogContext),
-                                          child: Text('Ok'),
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                await Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NavBarPage(initialPage: 'myTasks'),
+                                  ),
+                                  (r) => false,
                                 );
-                                if (currentUserEmailVerified) {
-                                  await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          NavBarPage(initialPage: 'myTasks'),
-                                    ),
-                                    (r) => false,
-                                  );
-                                }
                               },
                               text: 'Create Account',
                               options: FFButtonOptions(

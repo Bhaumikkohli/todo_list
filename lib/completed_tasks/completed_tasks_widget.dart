@@ -58,8 +58,8 @@ class _CompletedTasksWidgetState extends State<CompletedTasksWidget> {
                   },
                   child: Image.asset(
                     'assets/images/person.png',
-                    width: 44,
-                    height: 44,
+                    width: 45,
+                    height: 45,
                     fit: BoxFit.scaleDown,
                   ),
                 ),
@@ -80,7 +80,7 @@ class _CompletedTasksWidgetState extends State<CompletedTasksWidget> {
         child: FlutterFlowIconButton(
           borderColor: Colors.transparent,
           borderRadius: 30,
-          borderWidth: 0,
+          borderWidth: 1,
           buttonSize: 60,
           icon: Icon(
             Icons.add_rounded,
@@ -95,7 +95,7 @@ class _CompletedTasksWidgetState extends State<CompletedTasksWidget> {
                 return Padding(
                   padding: MediaQuery.of(context).viewInsets,
                   child: Container(
-                    height: 410,
+                    height: 450,
                     child: CreateTaskWidget(),
                   ),
                 );
@@ -154,8 +154,7 @@ class _CompletedTasksWidgetState extends State<CompletedTasksWidget> {
                           stream: queryToDoListRecord(
                             queryBuilder: (toDoListRecord) => toDoListRecord
                                 .where('toDoState', isEqualTo: true)
-                                .where('email', isEqualTo: currentUserEmail)
-                                .orderBy('toDoDate', descending: true),
+                                .where('email', isEqualTo: currentUserEmail),
                           ),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.

@@ -21,6 +21,14 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+    textController1 =
+        TextEditingController(text: currentUserDocument?.firstName);
+    textController2 = TextEditingController(text: currentUserEmail);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<UsersRecord>>(
       stream: queryUsersRecord(
@@ -133,42 +141,42 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(16, 20, 16, 30),
-                        child: TextFormField(
-                          controller: textController1 ??= TextEditingController(
-                            text: editProfileUsersRecord.firstName,
-                          ),
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelText: 'First Name',
-                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                        child: AuthUserStreamWidget(
+                          child: TextFormField(
+                            controller: textController1,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'First Name',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.tertiaryColor,
+                              ),
+                              hintText: 'Enter your First Name',
+                              hintStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.tertiaryColor,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor: FlutterFlowTheme.customColor6,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
                               fontFamily: 'Poppins',
                               color: FlutterFlowTheme.tertiaryColor,
                             ),
-                            hintText: 'Enter your First Name',
-                            hintStyle: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.tertiaryColor,
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: FlutterFlowTheme.customColor6,
-                          ),
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.tertiaryColor,
                           ),
                         ),
                       ),
@@ -181,42 +189,42 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-                        child: TextFormField(
-                          controller: textController2 ??= TextEditingController(
-                            text: editProfileUsersRecord.email,
-                          ),
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelText: 'Email Address',
-                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                        child: AuthUserStreamWidget(
+                          child: TextFormField(
+                            controller: textController2,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Email Address',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.tertiaryColor,
+                              ),
+                              hintText: 'Enter your Email Address',
+                              hintStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.tertiaryColor,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor: FlutterFlowTheme.customColor6,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
                               fontFamily: 'Poppins',
                               color: FlutterFlowTheme.tertiaryColor,
                             ),
-                            hintText: 'Enter your Email Address',
-                            hintStyle: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.tertiaryColor,
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: FlutterFlowTheme.customColor6,
-                          ),
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.tertiaryColor,
                           ),
                         ),
                       ),
@@ -232,11 +240,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       child: FFButtonWidget(
                         onPressed: () async {
                           final usersUpdateData = createUsersRecordData(
-                            firstName: textController1?.text ?? '',
-                            email: textController2?.text ?? '',
+                            firstName: textController1.text,
+                            email: textController2.text,
                           );
-                          await editProfileUsersRecord.reference
-                              .update(usersUpdateData);
+                          await currentUserReference.update(usersUpdateData);
                           Navigator.pop(context);
                         },
                         text: 'Update Changes',

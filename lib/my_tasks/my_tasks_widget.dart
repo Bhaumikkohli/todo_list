@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../components/create_task_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
@@ -73,15 +74,27 @@ class _MyTasksWidgetState extends State<MyTasksWidget> {
       ),
       backgroundColor: FlutterFlowTheme.customColor2,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('FloatingActionButton pressed ...');
+        onPressed: () async {
+          await showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (context) {
+              return Padding(
+                padding: MediaQuery.of(context).viewInsets,
+                child: Container(
+                  height: 450,
+                  child: CreateTaskWidget(),
+                ),
+              );
+            },
+          );
         },
         backgroundColor: FlutterFlowTheme.primaryColor,
-        elevation: 2,
+        elevation: 8,
         child: FlutterFlowIconButton(
           borderColor: Colors.transparent,
           borderRadius: 30,
-          borderWidth: 0,
+          borderWidth: 1,
           buttonSize: 60,
           icon: Icon(
             Icons.add_rounded,
@@ -150,194 +163,209 @@ class _MyTasksWidgetState extends State<MyTasksWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
-                      child: StreamBuilder<List<ToDoListRecord>>(
-                        stream: queryToDoListRecord(
-                          queryBuilder: (toDoListRecord) => toDoListRecord
-                              .where('toDoState', isEqualTo: false)
-                              .orderBy('toDoDate', descending: true),
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: CircularProgressIndicator(
-                                  color: FlutterFlowTheme.primaryColor,
-                                ),
-                              ),
-                            );
-                          }
-                          List<ToDoListRecord> columnToDoListRecordList =
-                              snapshot.data;
-                          if (columnToDoListRecordList.isEmpty) {
-                            return Center(
-                              child: Image.asset(
-                                'assets/images/empty_list_mytask.png',
-                                width: 280,
-                              ),
-                            );
-                          }
-                          return Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: List.generate(
-                                columnToDoListRecordList.length, (columnIndex) {
-                              final columnToDoListRecord =
-                                  columnToDoListRecordList[columnIndex];
-                              return Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                                child: InkWell(
-                                  onTap: () async {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => TaskDetailsWidget(
-                                          toDoNote:
-                                              columnToDoListRecord.reference,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    elevation: 3,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.customColor6,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(16, 0, 0, 0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    columnToDoListRecord
-                                                        .toDoName,
-                                                    style: FlutterFlowTheme
-                                                        .title2
-                                                        .override(
-                                                      fontFamily: 'Poppins',
-                                                      color: FlutterFlowTheme
-                                                          .tertiaryColor,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                0, 4, 0, 0),
-                                                    child: Text(
-                                                      dateTimeFormat(
-                                                          'MMMEd',
-                                                          columnToDoListRecord
-                                                              .toDoDate),
-                                                      style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                        color:
-                                                            Color(0xFF9CEC81),
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FlutterFlowIconButton(
-                                                borderColor: Colors.transparent,
-                                                borderRadius: 30,
-                                                borderWidth: 1,
-                                                buttonSize: 60,
-                                                icon: Icon(
-                                                  Icons.delete_outline_rounded,
-                                                  color: Color(0x7D690000),
-                                                  size: 30,
-                                                ),
-                                                onPressed: () async {
-                                                  await columnToDoListRecord
-                                                      .reference
-                                                      .delete();
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 0, 12, 0),
-                                                child: ToggleIcon(
-                                                  onPressed: () async {
-                                                    final toDoListUpdateData =
-                                                        createToDoListRecordData(
-                                                      toDoState:
-                                                          !columnToDoListRecord
-                                                              .toDoState,
-                                                    );
-                                                    await columnToDoListRecord
-                                                        .reference
-                                                        .update(
-                                                            toDoListUpdateData);
-                                                  },
-                                                  value: columnToDoListRecord
-                                                      .toDoState,
-                                                  onIcon: Icon(
-                                                    Icons.check_circle,
-                                                    color: Color(0xFF2A7112),
-                                                    size: 25,
-                                                  ),
-                                                  offIcon: Icon(
-                                                    Icons
-                                                        .radio_button_off_rounded,
-                                                    color: Color(0xA3FFFFFF),
-                                                    size: 25,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                      child: AuthUserStreamWidget(
+                        child: StreamBuilder<List<ToDoListRecord>>(
+                          stream: queryToDoListRecord(
+                            queryBuilder: (toDoListRecord) => toDoListRecord
+                                .where('toDoState', isEqualTo: false)
+                                .where('email', isEqualTo: currentUserEmail),
+                          ),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: CircularProgressIndicator(
+                                    color: FlutterFlowTheme.primaryColor,
                                   ),
                                 ),
                               );
-                            }),
-                          );
-                        },
+                            }
+                            List<ToDoListRecord> columnToDoListRecordList =
+                                snapshot.data;
+                            if (columnToDoListRecordList.isEmpty) {
+                              return Center(
+                                child: Image.asset(
+                                  'assets/images/empty_list_mytask.png',
+                                  width: 280,
+                                ),
+                              );
+                            }
+                            return Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children:
+                                  List.generate(columnToDoListRecordList.length,
+                                      (columnIndex) {
+                                final columnToDoListRecord =
+                                    columnToDoListRecordList[columnIndex];
+                                return Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 12),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TaskDetailsWidget(
+                                            toDoNote:
+                                                columnToDoListRecord.reference,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      elevation: 3,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.customColor6,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(16, 0, 0, 0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      valueOrDefault<String>(
+                                                        columnToDoListRecord
+                                                            .toDoName,
+                                                        'Random Task',
+                                                      ),
+                                                      style: FlutterFlowTheme
+                                                          .title2
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                        color: FlutterFlowTheme
+                                                            .tertiaryColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 4, 0, 0),
+                                                      child: Text(
+                                                        valueOrDefault<String>(
+                                                          dateTimeFormat(
+                                                              'MMMEd',
+                                                              columnToDoListRecord
+                                                                  .toDoDate),
+                                                          'Anytime',
+                                                        ),
+                                                        style: FlutterFlowTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily: 'Poppins',
+                                                          color:
+                                                              Color(0xFF9CEC81),
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                FlutterFlowIconButton(
+                                                  borderColor:
+                                                      Colors.transparent,
+                                                  borderRadius: 30,
+                                                  borderWidth: 1,
+                                                  buttonSize: 60,
+                                                  icon: Icon(
+                                                    Icons
+                                                        .delete_outline_rounded,
+                                                    color: Color(0x7D690000),
+                                                    size: 30,
+                                                  ),
+                                                  onPressed: () async {
+                                                    await columnToDoListRecord
+                                                        .reference
+                                                        .delete();
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 12, 0),
+                                                  child: ToggleIcon(
+                                                    onPressed: () async {
+                                                      final toDoListUpdateData =
+                                                          createToDoListRecordData(
+                                                        toDoState:
+                                                            !columnToDoListRecord
+                                                                .toDoState,
+                                                      );
+                                                      await columnToDoListRecord
+                                                          .reference
+                                                          .update(
+                                                              toDoListUpdateData);
+                                                    },
+                                                    value: columnToDoListRecord
+                                                        .toDoState,
+                                                    onIcon: Icon(
+                                                      Icons.check_circle,
+                                                      color: Color(0xFF2A7112),
+                                                      size: 25,
+                                                    ),
+                                                    offIcon: Icon(
+                                                      Icons
+                                                          .radio_button_off_rounded,
+                                                      color: Color(0xA3FFFFFF),
+                                                      size: 25,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],

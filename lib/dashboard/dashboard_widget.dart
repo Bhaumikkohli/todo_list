@@ -10,12 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class DashboardWidget extends StatefulWidget {
-  const DashboardWidget({
-    Key key,
-    this.tasksCount,
-  }) : super(key: key);
-
-  final int tasksCount;
+  const DashboardWidget({Key key}) : super(key: key);
 
   @override
   _DashboardWidgetState createState() => _DashboardWidgetState();
@@ -61,11 +56,21 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.primaryColor,
                     ),
-                    child: Image.asset(
-                      'assets/images/person.png',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyProfileWidget(),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/person.png',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
